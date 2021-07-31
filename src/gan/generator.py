@@ -1,0 +1,34 @@
+from torch import nn
+
+
+class Generator(nn.Module):
+    def __init__(self, z_dim: int, image_channels: int):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.ConvTranspose2d(z_dim, 64 * 4, kernel_size=3, stride=2, padding=0),
+            nn.BatchNorm2d(64 * 4),
+            nn.ReLU(),
+            nn.ConvTranspose2d(64 * 4, 64 * 2, kernel_size=4, stride=1, padding=0),
+            nn.BatchNorm2d(64 * 2),
+            nn.ReLU(),
+            nn.ConvTranspose2d(64 * 2, 64, kernel_size=3, stride=2, padding=0),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.ConvTranspose2d(64, image_channels, kernel_size=4, stride=2, padding=0),
+            nn.Sigmoid(),  # map to 0 - 1 pixel values
+        )
+
+    def forward(self, z):
+        z = z[:, :, None, None]  # (batch_size, z_dim, 1, 1)
+        return self.model(z)  # (batch_size, image_channels, 28, 28)
+
+
+if __name__ == "__main__":
+    import torch
+
+    z = torch.randn(7, 10)
+    gen = Generator(z.shape[1], 3)
+    fake = gen(z)
+    assert fake.shape == torch.Size([7, 3, 28, 28])
+    assert fake.min() > 0
+    assert fake.max() < 1

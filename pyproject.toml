@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gan"
+version = "0.1.0"
+description = ""
+authors = ["Ching-yu Lin <cyl@chingyulin.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+torch = "^1.9.0"
+numpy = "^1.21.1"
+torchvision = "^0.10.0"
+tqdm = "^4.62.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
