@@ -2,24 +2,25 @@ from torch import nn
 
 
 class Generator(nn.Module):
-    def __init__(self, z_dim: int, image_channels: int):
+    def __init__(self, z_dim: int, image_channels: int = 1):
         super().__init__()
         self.model = nn.Sequential(
-            nn.ConvTranspose2d(z_dim, 64 * 4, kernel_size=3, stride=2, padding=0),
+            nn.ConvTranspose2d(z_dim, 64 * 4, kernel_size=3, stride=2),
             nn.BatchNorm2d(64 * 4),
             nn.ReLU(),
-            nn.ConvTranspose2d(64 * 4, 64 * 2, kernel_size=4, stride=1, padding=0),
+            nn.ConvTranspose2d(64 * 4, 64 * 2, kernel_size=4, stride=1),
             nn.BatchNorm2d(64 * 2),
             nn.ReLU(),
-            nn.ConvTranspose2d(64 * 2, 64, kernel_size=3, stride=2, padding=0),
+            nn.ConvTranspose2d(64 * 2, 64, kernel_size=3, stride=2),
             nn.BatchNorm2d(64),
             nn.ReLU(),
-            nn.ConvTranspose2d(64, image_channels, kernel_size=4, stride=2, padding=0),
+            nn.ConvTranspose2d(64, image_channels, kernel_size=4, stride=2),
             nn.Sigmoid(),  # map to 0 - 1 pixel values
+            # nn.Tanh()
         )
 
     def forward(self, z):
-        z = z[:, :, None, None]  # (batch_size, z_dim, 1, 1)
+        z = z.view(z.shape[0], z.shape[1], 1, 1)  # (batch_size, z_dim, 1, 1)
         return self.model(z)  # (batch_size, image_channels, 28, 28)
 
 

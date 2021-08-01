@@ -10,6 +10,7 @@ torch = "^1.9.0"
 numpy = "^1.21.1"
 torchvision = "^0.10.0"
 tqdm = "^4.62.0"
+matplotlib = "^3.4.2"
 
 [tool.poetry.dev-dependencies]
 
