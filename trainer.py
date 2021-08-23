@@ -25,6 +25,7 @@ def save_tensor_images(image_tensor, path, num_images=25):
     Function for visualizing images: Given a tensor of images, number of images, and
     size per image, plots and prints the images in an uniform grid.
     """
+    image_tensor = (1 + image_tensor) / 2
     image_unflat = image_tensor.detach().cpu()
     image_grid = make_grid(image_unflat[:num_images], nrow=5)
     img = image_grid.squeeze()
@@ -35,8 +36,8 @@ def save_tensor_images(image_tensor, path, num_images=25):
 
 
 z_dim = 64
-display_step = 100
-batch_size = 256
+display_step = 1000
+batch_size = 128
 lr = 0.0002
 image_channels = 1
 beta_1 = 0.5
@@ -55,7 +56,7 @@ disc = disc.apply(weights_init)
 transform = transforms.Compose(
     [
         transforms.ToTensor(),
-        transforms.Normalize((0,), (0.5,)),
+        transforms.Normalize((0.5,), (0.5,)),
     ]
 )
 
@@ -66,7 +67,7 @@ dataloader = DataLoader(
 )
 
 
-n_epochs = 50
+n_epochs = 500
 cur_step = 0
 mean_generator_loss = 0
 mean_discriminator_loss = 0
@@ -109,10 +110,11 @@ for epoch in range(n_epochs):
                 f"Step {cur_step}: Generator loss: {mean_generator_loss}, discriminator loss: {mean_discriminator_loss}"
             )
 
-            save_tensor_images(fake, f"./output/{cur_step}.png")
-            # save_tensor_images(real, f"./output/real_{cur_step}.png")
-
             mean_generator_loss = 0
             mean_discriminator_loss = 0
         cur_step += 1
-    torch.save(gen.state_dict(), f"./output/{cur_step}.pth")
+    
+    if epoch % 5 == 0:
+        save_tensor_images(fake, f"./output/fakes/{cur_step}.png")
+        # save_tensor_images(real, f"./output/real_{cur_step}.png")
+        torch.save(gen.state_dict(), f"./output/checkpoints/{cur_step}.pth")
