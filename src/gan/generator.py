@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 
 
@@ -15,13 +16,13 @@ class Generator(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.ConvTranspose2d(64, image_channels, kernel_size=4, stride=2),
-#             nn.Sigmoid(),  # map to 0 - 1 pixel values
-            nn.Tanh()
+            nn.Tanh(),  # map to -1 to 1 pixel values
         )
 
-    def forward(self, z):
+    def forward(self, z: torch.Tensor) -> torch.Tensor:
         z = z.view(z.shape[0], z.shape[1], 1, 1)  # (batch_size, z_dim, 1, 1)
-        return self.model(z)  # (batch_size, image_channels, 28, 28)
+        generated = self.model(z)  # (batch_size, image_channels, 28, 28)
+        return generated
 
 
 if __name__ == "__main__":

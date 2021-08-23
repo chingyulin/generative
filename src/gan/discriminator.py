@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 
 
@@ -14,7 +15,7 @@ class Discriminator(nn.Module):
             nn.Conv2d(32, 1, kernel_size=4, stride=2, padding=0),
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """assumes x has shape (batch_size, image_channels, 28, 28), so the final output has 1 x 1 size"""
         return self.model(x).view(x.shape[0], -1)  # (batch_size, 1)
 
