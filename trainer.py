@@ -10,14 +10,7 @@ from tqdm.auto import tqdm
 
 from gan.discriminator import Discriminator
 from gan.generator import Generator
-
-
-def weights_init(m):
-    if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
-        torch.nn.init.normal_(m.weight, 0.0, 0.02)
-    if isinstance(m, nn.BatchNorm2d):
-        torch.nn.init.normal_(m.weight, 0.0, 0.02)
-        torch.nn.init.constant_(m.bias, 0)
+from gan.utils import weights_init
 
 
 def save_tensor_images(image_tensor, path, num_images=25):
@@ -113,7 +106,7 @@ for epoch in range(n_epochs):
             mean_generator_loss = 0
             mean_discriminator_loss = 0
         cur_step += 1
-    
+
     if epoch % 5 == 0:
         save_tensor_images(fake, f"./output/fakes/{cur_step}.png")
         # save_tensor_images(real, f"./output/real_{cur_step}.png")

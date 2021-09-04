@@ -21,7 +21,6 @@ class Discriminator(nn.Module):
 
 
 if __name__ == "__main__":
-    import torch
 
     x = torch.randn(7, 3, 28, 28)
     disc = Discriminator(x.shape[1])
