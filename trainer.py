@@ -107,7 +107,5 @@ for epoch in range(n_epochs):
             mean_discriminator_loss = 0
         cur_step += 1
 
-    if epoch % 5 == 0:
-        save_tensor_images(fake, f"./output/fakes/{cur_step}.png")
-        # save_tensor_images(real, f"./output/real_{cur_step}.png")
-        torch.save(gen.state_dict(), f"./output/checkpoints/{cur_step}.pth")
+    save_tensor_images(fake, f"./output/fakes/{epoch}.png")
+    torch.save(gen.state_dict(), f"./output/checkpoints/{epoch}.pth")
