@@ -21,7 +21,7 @@ class Generator(nn.Module):
 
     def forward(self, z: torch.Tensor) -> torch.Tensor:
         z = z.view(z.shape[0], z.shape[1], 1, 1)  # (batch_size, z_dim, 1, 1)
-        generated = self.model(z)  # (batch_size, image_channels, 28, 28)
+        generated = self.model(z)  # (batch_size, image_channels, w, h)
         return generated
 
 
