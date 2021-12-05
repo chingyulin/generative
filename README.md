@@ -1,5 +1,3 @@
-# generative
+# Effects of loss functions on Single-Image Super-Resolution
 
-# TODO
-1. An inference API to serve fake images
-2. Onmx export
+The code for the Stanford CS236 course project. 
