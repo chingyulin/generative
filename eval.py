@@ -27,6 +27,14 @@ test_dataset = StanfordDogDataset(
 dataloader = DataLoader(test_dataset, batch_size=1)
 downsample = Compose([GaussianBlur(kernel_size=(5, 5), sigma=(0.1, 0.1))])
 
+model_paths = [
+    "exp/dog_srresnet_mse_aug/checkpoints/20000.pth",
+    "exp/dog_srresnet_mse_vgg_aug/checkpoints/20000.pth",
+    "exp/dog_srresnet_mse_hed2/checkpoints/20000.pth",
+    "exp/dog_srresnet_mse_adv/checkpoints/20000.pth",
+    "exp/dog_srresnet_mse_adv_wasserstein/checkpoints/20000.pth"
+]
+
 # gen = NetG(3).cuda().eval()
 # gen.load_state_dict(torch.load("exp/doc_mse_hed_vgg/checkpoints/40000.pth"))
 
